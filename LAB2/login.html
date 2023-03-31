@@ -2,36 +2,33 @@
 <html>
     <head>
         <title>signup</title>
+        <link rel = "stylesheet" type = "text/css" href = "main.css">
     </head>
 
     <body>
-        <h1>Welcome to INTERNET-PROGRAMMING SHOP</h1>
+        <h1 class = "title">Welcome to INTERNET-PROGRAMMING SHOP</h1>
         <p>
-            <a>로그인</a>
-            <a href = "signup.html">회원가입</a>
-        </p>
-
-        <p>
-            회원정보 (필수)
-            <form method = "post" action = "http://www.example.com">
-                <p><label>
-                    유저 아이디:
-                    <input type = "email" name = "email" placeholder = "아이디를 입력하세요" required>
-                </label><br/>
-                <label>
-                    비밀번호:
-                    <input type = "password" name = "password" placeholder = "비밀번호 입력하세요" required>
-                </label><br/>
-                <label>
-                    비밀번호 확인:
-                    <input type = "password" name = "passwordcheck" placeholder = "비밀번호 확인" required>
-                </label><br/>
-                    <input type = "submit" value = "로그인">
-                    <input type = "reset" value = "회원가입">
+            <form class = "center" method = "post" action = "http://www.example.com">
+                <a href="login.html">로그인</a>
+                <a href = "signup.html">회원가입</a><br/>
+                <p>
+                    회원정보 (필수)<br/>
+                    <label>
+                        유저 아이디:
+                        <input type = "email" name = "email" placeholder = "아이디를 입력하세요" required>
+                    </label><br/>
+                    <label>
+                        비밀번호:
+                        <input type = "password" name = "password" placeholder = "비밀번호 입력하세요" required>
+                    </label><br/>
+                    <label>
+                        비밀번호 확인:
+                        <input type = "password" name = "passwordcheck" placeholder = "비밀번호 확인" required>
+                    </label><br/>
+                    <input class = "greenbutton" type = "submit" value = "로그인">
+                    <input class = "bluebutton" type = "reset" value = "회원가입">
                 </p>
             </form>
-            
         </p>
-          
     </body>
 </html>
