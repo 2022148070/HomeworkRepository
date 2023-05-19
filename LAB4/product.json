@@ -1,0 +1,122 @@
+[
+    {
+        "name": "1",
+        "type": "odd",
+        "price": 7,
+        "img": "1.jpg"
+    },
+    {
+        "name": "2",
+        "type": "even",
+        "price": 14,
+        "img": "2.jpg"
+    },
+    {
+        "name": "3",
+        "type": "odd",
+        "price": 1,
+        "img": "3.jpg"
+    },
+    {
+        "name": "4",
+        "type": "even",
+        "price": 8,
+        "img": "4.jpg"
+    },
+    {
+        "name": "5",
+        "type": "odd",
+        "price": 15,
+        "img": "5.jpg"
+    },
+    {
+        "name": "6",
+        "type": "even",
+        "price": 2,
+        "img": "6.jpg"
+    },
+    {
+        "name": "7",
+        "type": "odd",
+        "price": 9,
+        "img": "7.jpg"
+    },
+    {
+        "name": "8",
+        "type": "even",
+        "price": 16,
+        "img": "8.jpg"
+    },
+    {
+        "name": "9",
+        "type": "odd",
+        "price": 3,
+        "img": "9.jpg"
+    },
+    {
+        "name": "10",
+        "type": "even",
+        "price": 10,
+        "img": "10.jpg"
+    },
+    {
+        "name": "11",
+        "type": "odd",
+        "price": 17,
+        "img": "11.jpg"
+    },
+    {
+        "name": "12",
+        "type": "even",
+        "price": 4,
+        "img": "12.jpg"
+    },
+    {
+        "name": "13",
+        "type": "odd",
+        "price": 11,
+        "img": "13.jpg"
+    },
+    {
+        "name": "14",
+        "type": "even",
+        "price": 18,
+        "img": "14.jpg"
+    },
+    {
+        "name": "15",
+        "type": "odd",
+        "price": 5,
+        "img": "15.jpg"
+    },
+    {
+        "name": "16",
+        "type": "even",
+        "price": 12,
+        "img": "16.jpg"
+    },
+    {
+        "name": "17",
+        "type": "odd",
+        "price": 19,
+        "img": "17.jpg"
+    },
+    {
+        "name": "18",
+        "type": "even",
+        "price": 6,
+        "img": "18.jpg"
+    },
+    {
+        "name": "19",
+        "type": "odd",
+        "price": 13,
+        "img": "19.jpg"
+    },
+    {
+        "name": "20",
+        "type": "even",
+        "price": 20,
+        "img": "20.jpg"
+    }
+]
