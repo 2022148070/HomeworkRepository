@@ -59,8 +59,11 @@
             var product = data;
 
             const itemarea = document.getElementById("products");
-            function filtering(e) {
-                e.preventDefault();
+            function filtering() {
+                while (itemarea.hasChildNodes())
+                    itemarea.removeChild(itemarea.firstChild);
+                show_init(product);
+                
                 product = [];
                 const type = document.getElementById("category").value;
                 const keyword = document.getElementById("term").value;
@@ -94,10 +97,15 @@
                         if (a.price === b.price) return 0;
                         if (a.price < b.price) return -1;
                     });
+                if (ifsort == "none")
+                    data.sort(function (a, b) {
+                        if (a.name > b.name) return 1;
+                        if (a.name === b.name) return 0;
+                        if (a.name < b.name) return -1;
+                    });
 
-                while (itemarea.hasChildNodes())
-                    itemarea.removeChild(itemarea.firstChild);
-                show_init(product);
+
+
             }
 
             show_init(data);
@@ -130,7 +138,7 @@
                         if (product_name == data[i].name) {
                             document.getElementById('phot ' + product_name).style.opacity = 0.4;
                             let elem = document.createElement('p');
-                            elem.innerHTML = data[i].name + " <br> " + data[i].price;
+                            elem.innerHTML = "이름: " + data[i].name + " <br>가격: " + data[i].price;
                             document.getElementById('item ' + product_name).appendChild(elem);
                             break;
                         }
