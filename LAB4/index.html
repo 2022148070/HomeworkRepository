@@ -50,133 +50,98 @@
         여기는 마켓컬리 여기는 마켓컬리 여기는 마켓컬리 여기는 마켓컬리 여기는 마켓컬리
     </footer>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            fetch('product.json')
-                .then(response => response.json())
-                .then(json => base(json))
-                .catch(error => {
-                    console.log(error)
-                });
-        });
 
-        function base(data) {
+        fetch('product.json')
+            .then(response => response.json())
+            .then(json => main(json));
 
+        function main(data) {
             var product = data;
-            init(data);
 
-            function init(data) {
-                const itemarea = document.getElementById("products");
-                function filtering(e) {
-                    e.preventDefault();
-                    // 제품 필터링 (카테고리, 키워드)
-                    // 입력받은 값 저장
-                    product = [];
-                    const type = document.getElementById("category").value;
-                    const keyword = document.getElementById("term").value;
+            const itemarea = document.getElementById("products");
+            function filtering(e) {
+                e.preventDefault();
+                product = [];
+                const type = document.getElementById("category").value;
+                const keyword = document.getElementById("term").value;
+                const ifsort = document.getElementById("sort").value;
 
-                    console.log(type, keyword);
+                console.log(type, keyword);
 
-                    // json 파일에서 해당하는 배열 찾기
-                    if (type == "All") {
-                        if (keyword == "Search Keywords") { product = data; }
-                        else {
-                            for (let i = 0; i < data.length; i++) {
-                                if (data[i].name.toLowerCase().includes(keyword.toLowerCase())) {
-                                    product.push(data[i]);
-                                }
-                            }
-                        }
+                if (type == "All") {
+                    if (keyword === null)
+                        product = data;
+                    else
+                        for (let i = 0; i < data.length; i++)
+                            if (data[i].name.includes(keyword))
+                                product.push(data[i]);
+                }
+                else {
+                    if (keyword === null) {
+                        for (let i = 0; i < data.length; i++)
+                            if (data[i].type == type)
+                                product.push(data[i]);
                     }
-                    else {
-                        if (keyword == "Search Keywords") {
-                            for (let i = 0; i < data.length; i++) {
-                                if (data[i].type == type.toLowerCase()) { product.push(data[i]); }
-                            }
-                        }
-                        else {
-                            for (let i = 0; i < data.length; i++) {
-                                if (data[i].type == type.toLowerCase() && data[i].contents.toLowerCase().includes(keyword.toLowerCase())) {
-                                    product.push(data[i]);
-                                }
-                            }
-                        }
-                    }
-
-                    // 원하는 개수만큼 보여주기
-                    reset_items();
-                    // 결과가 없을 때
-                    if (product.length == 0) {
-                        const p = document.createElement('p');
-                        p.id = "noResult";
-                        p.innerHTML = "There is no result.";
-                        itemarea.appendChild(p);
-                    }
-                    // 결과가 있을 떄
-                    show_init(product);
+                    else
+                        for (let i = 0; i < data.length; i++)
+                            if (data[i].type == type && data[i].name.includes(keyword))
+                                product.push(data[i]);
                 }
 
-                show_init(data);
-                document.getElementById("searchbutton").onclick = filtering;
+                if (ifsort == "up")
+                    data.sort(function (a, b) {
+                        if (a.price > b.price) return 1;
+                        if (a.price === b.price) return 0;
+                        if (a.price < b.price) return -1;
+                    });
 
-                // 제공받은 제품 리스트에서 9개만 보여주기
-                function show_init(product) {
-                    for (let i = 0; i < product.length; i++) {
-                        if (i < 6) {
-                            let div = document.createElement('div');
-                            let img = document.createElement('img');
+                while (itemarea.hasChildNodes())
+                    itemarea.removeChild(itemarea.firstChild);
+                show_init(product);
+            }
 
-                            div.className = 'item';
-                            div.id = 'item ' + product[i].name;
-                            div.addEventListener('click', showContents);
+            show_init(data);
+            document.getElementById("searchbutton").onclick = filtering;
 
-                            img.id = 'phot ' + product[i].name;
-                            img.src = product[i].img;
-                            img.alt = product[i].contents;
+            function show_init(product) {
+                for (let i = 0; i < product.length; i++) {
+                    if (i < 6) {
+                        let div = document.createElement('div');
+                        let img = document.createElement('img');
 
-                            itemarea.appendChild(div);
-                            div.appendChild(img);
-                        }
+                        div.className = 'item';
+                        div.id = 'item ' + product[i].name;
+                        div.addEventListener('click', showContents);
+
+                        img.id = 'phot ' + product[i].name;
+                        img.src = product[i].img;
+                        img.alt = product[i].name;
+
+                        itemarea.appendChild(div);
+                        div.appendChild(img);
                     }
-
                 }
-
-                // 현재 main-div의 모든 자식 노드 삭제
-                function reset_items() {
-                    while (itemarea.hasChildNodes()) {
-                        itemarea.removeChild(itemarea.firstChild);
-                    }
-                }
-
-
             }
 
             function showContents(e) {
-                // 클릭했을 때 설명 보여주기 (이름, 가격, 설명)
-                let product_name = e.path[0].id.substr(5);
+                let product_name = e.currentTarget.id.substr(5);
                 if (document.getElementById('phot ' + product_name).style.opacity != 0.4) {
                     for (let i = 0; i < data.length; i++) {
                         if (product_name == data[i].name) {
                             document.getElementById('phot ' + product_name).style.opacity = 0.4;
                             let elem = document.createElement('p');
-                            elem.innerHTML = data[i].contents + " <br> " + data[i].price;
+                            elem.innerHTML = data[i].name + " <br> " + data[i].price;
                             document.getElementById('item ' + product_name).appendChild(elem);
-                            elem.style.textAlign = "center";
-                            elem.style.position = "relative";
-                            elem.style.top = "-30%";
-                            elem.style.backgroundColor = "rgba(255,255,255,0.3)";
+                            break;
                         }
                     }
                 }
-
             }
 
             window.onscroll = () => {
                 if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-                    // 원하는 개수만큼 새로운 제품 정보 로드
-                    // 일단 지금 몇 개 있는지 파악하고 그 뒤부터 다시 저장
                     let elem_num = document.getElementById("products").childElementCount;
                     let new_product = product.slice(elem_num);
-                    // div랑 img 만들어서 보이게 하기
                     for (let i = 0; i < new_product.length; i++) {
                         if (i < 6) {
                             let div = document.createElement('div');
@@ -188,7 +153,7 @@
 
                             img.id = 'phot ' + new_product[i].name;
                             img.src = new_product[i].img;
-                            img.alt = new_product[i].contents;
+                            img.alt = new_product[i].name;
 
                             document.getElementById("products").appendChild(div);
                             div.appendChild(img);
@@ -197,7 +162,6 @@
                 }
             }
         }
-
     </script>
 </body>
 
