@@ -14,41 +14,71 @@ section {
     padding: 5px;
 }
 
-.bluebutton, .greenbutton, .redbutton {
+.bluebutton,
+.greenbutton,
+.redbutton {
     width: 100px;
     height: 30px;
 
     font-size: medium;
     font-weight: bold;
-    color:white;
+    color: white;
 
     margin: 10px 3px 3px 3px;
     border: none;
 }
-.greenbutton {background-color:green;}
-.redbutton {background-color: red;}
-.bluebutton {background-color: blue;}
 
-.flex-container-row .flex-container-column{
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: unwrap;
+.greenbutton {
+    background-color: green;
 }
-.flex-container-row {flex-direction: row;}
-.flex-container-column {flex-direction: column;}
+
+.redbutton {
+    background-color: red;
+}
+
+.bluebutton {
+    background-color: blue;
+}
+
+.flex-container-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-container-column {
+    display: flex;
+    flex-direction: column;
+}
+
+#products {
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
 
 .navbar {
     display: flex;
     flex-direction: row;
 }
-.navbar a {margin: 10px;}
 
-.search {
+.navbar a {
+    margin: 10px;
+}
+
+#search {
     width: 200px;
-    border: solid black;
+}
+
+#products {
+    width: 700px;
 }
 
 img {
-    width: 300px;
-    height: 300px;
+    width: 100%;
+    height: 100%;
+}
+
+.item {
+    width:300px;
+    height:300px;
+    margin: 20px;
 }
