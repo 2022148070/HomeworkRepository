@@ -20,157 +20,152 @@
         </div>
     </nav>
     <section class="flex-container-row">
-        <div class="flex-container-column search">
-            <p><label>Choose a category:
-                    <br /><select id="category">
+        <div class="flex-container-column" id="search">
+            <p>
+                <label>Choose a category:<br />
+                    <select id="category">
                         <option selected>All</option>
                         <option>even</option>
                         <option>odd</option>
-                    </select></label></p>
-            <p><label>Enter search term:
-                    <br /><input type="text" id="term">
-                </label></p>
-            <p><label>Choose a sort:
-                    <br /><select id="sort">
-                        <option selected>none</option>
-                        <option>up</option>
-                    </select></label></p>
+                    </select>
+                </label>
+            </p>
+            <p>
+                <label>Enter search term:<br />
+                    <input type="text" id="term">
+                </label>
+            </p>
+            <p>
+                <label>Choose a sort(up):<br />
+                    <select id="sort">
+                        <option selected>name</option>
+                        <option>price</option>
+                    </select>
+                </label>
+            </p>
             <input type="submit" value="Filter results" id="searchbutton" />
         </div>
-        <div id="products"></div>
+        <div class="flex-container-row" id="products"></div>
     </section>
-    <footer>
-        여기는 마켓컬리 여기는 마켓컬리 여기는 마켓컬리 여기는 마켓컬리 여기는 마켓컬리
-        여기는 마켓컬리 여기는 마켓컬리 여기는 마켓컬리 여기는 마켓컬리 여기는 마켓컬리
-        여기는 마켓컬리 여기는 마켓컬리 여기는 마켓컬리 여기는 마켓컬리 여기는 마켓컬리
-        여기는 마켓컬리 여기는 마켓컬리 여기는 마켓컬리 여기는 마켓컬리 여기는 마켓컬리
-        여기는 마켓컬리 여기는 마켓컬리 여기는 마켓컬리 여기는 마켓컬리 여기는 마켓컬리
-        여기는 마켓컬리 여기는 마켓컬리 여기는 마켓컬리 여기는 마켓컬리 여기는 마켓컬리
-        여기는 마켓컬리 여기는 마켓컬리 여기는 마켓컬리 여기는 마켓컬리 여기는 마켓컬리
-        여기는 마켓컬리 여기는 마켓컬리 여기는 마켓컬리 여기는 마켓컬리 여기는 마켓컬리
-    </footer>
-    <script>
 
+    <script>
         fetch('product.json')
             .then(response => response.json())
             .then(json => main(json));
 
         function main(data) {
-            var product = data;
+            let products = data;
+            const productsContainer = document.getElementById("products");
 
-            const itemarea = document.getElementById("products");
-            function filtering() {
-                while (itemarea.hasChildNodes())
-                    itemarea.removeChild(itemarea.firstChild);
-                show_init(product);
-                
-                product = [];
-                const type = document.getElementById("category").value;
-                const keyword = document.getElementById("term").value;
-                const ifsort = document.getElementById("sort").value;
+            function createProductElement(product) {
+                let productDiv = document.createElement('div');
+                let productImg = document.createElement('img');
 
-                console.log(type, keyword);
+                productDiv.className = 'item';
+                productDiv.id = 'item ' + product.name;
+                productDiv.addEventListener('click', showContents);
 
-                if (type == "All") {
-                    if (keyword === null)
-                        product = data;
-                    else
-                        for (let i = 0; i < data.length; i++)
-                            if (data[i].name.includes(keyword))
-                                product.push(data[i]);
-                }
-                else {
-                    if (keyword === null) {
-                        for (let i = 0; i < data.length; i++)
-                            if (data[i].type == type)
-                                product.push(data[i]);
-                    }
-                    else
-                        for (let i = 0; i < data.length; i++)
-                            if (data[i].type == type && data[i].name.includes(keyword))
-                                product.push(data[i]);
-                }
+                productImg.id = 'image' + product.name;
+                productImg.src = product.img;
 
-                if (ifsort == "up")
-                    data.sort(function (a, b) {
-                        if (a.price > b.price) return 1;
-                        if (a.price === b.price) return 0;
-                        if (a.price < b.price) return -1;
-                    });
-                if (ifsort == "none")
-                    data.sort(function (a, b) {
-                        if (a.name > b.name) return 1;
-                        if (a.name === b.name) return 0;
-                        if (a.name < b.name) return -1;
-                    });
+                productDiv.appendChild(productImg);
 
-
-
+                return productDiv;
             }
 
-            show_init(data);
-            document.getElementById("searchbutton").onclick = filtering;
-
-            function show_init(product) {
-                for (let i = 0; i < product.length; i++) {
+            function showInit(products) {
+                for (let i = 0; i < products.length; i++) {
                     if (i < 6) {
-                        let div = document.createElement('div');
-                        let img = document.createElement('img');
-
-                        div.className = 'item';
-                        div.id = 'item ' + product[i].name;
-                        div.addEventListener('click', showContents);
-
-                        img.id = 'phot ' + product[i].name;
-                        img.src = product[i].img;
-                        img.alt = product[i].name;
-
-                        itemarea.appendChild(div);
-                        div.appendChild(img);
+                        let productElement = createProductElement(products[i]);
+                        productsContainer.appendChild(productElement);
                     }
                 }
             }
 
-            function showContents(e) {
-                let product_name = e.currentTarget.id.substr(5);
-                if (document.getElementById('phot ' + product_name).style.opacity != 0.4) {
-                    for (let i = 0; i < data.length; i++) {
-                        if (product_name == data[i].name) {
-                            document.getElementById('phot ' + product_name).style.opacity = 0.4;
-                            let elem = document.createElement('p');
-                            elem.innerHTML = "이름: " + data[i].name + " <br>가격: " + data[i].price;
-                            document.getElementById('item ' + product_name).appendChild(elem);
-                            break;
+            function onScrollHandler() {
+                if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+                    let elemNum = productsContainer.childElementCount;
+                    let newProducts = products.slice(elemNum);
+                    for (let i = 0; i < newProducts.length; i++) {
+                        if (i < 2) {
+                            let productElement = createProductElement(newProducts[i]);
+                            productsContainer.appendChild(productElement);
                         }
                     }
                 }
             }
 
-            window.onscroll = () => {
-                if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-                    let elem_num = document.getElementById("products").childElementCount;
-                    let new_product = product.slice(elem_num);
-                    for (let i = 0; i < new_product.length; i++) {
-                        if (i < 6) {
-                            let div = document.createElement('div');
-                            let img = document.createElement('img');
+            function filtering(e) {
+                e.preventDefault();
+                products = [];
+                const category = document.getElementById("category").value;
+                const keyword = document.getElementById("term").value;
+                const sortOption = document.getElementById("sort").value;
 
-                            div.className = 'item';
-                            div.id = 'item ' + new_product[i].name;
-                            div.addEventListener('click', showContents);
+                if (category == "All") {
+                    if (keyword === null)
+                        products = data;
+                    else {
+                        for (let i = 0; i < data.length; i++)
+                            if (data[i].name.includes(keyword))
+                                products.push(data[i]);
+                    }
+                } else {
+                    if (keyword === null) {
+                        for (let i = 0; i < data.length; i++)
+                            if (data[i].type == category)
+                                products.push(data[i]);
+                    } else {
+                        for (let i = 0; i < data.length; i++)
+                            if (data[i].type == category && data[i].name.includes(keyword))
+                                products.push(data[i]);
+                    }
+                }
 
-                            img.id = 'phot ' + new_product[i].name;
-                            img.src = new_product[i].img;
-                            img.alt = new_product[i].name;
+                if (sortOption == "price")
+                    products.sort(function (a, b) {
+                        if (Number(a.price) > Number(b.price)) return 1;
+                        if (Number(a.price) === Number(b.price)) return 0;
+                        if (Number(a.price) < Number(b.price)) return -1;
+                    });
+                else
+                    products.sort(function (a, b) {
+                        if (Number(a.name) > Number(b.name)) return 1;
+                        if (Number(a.name) === Number(b.name)) return 0;
+                        if (Number(a.name) < Number(b.name)) return -1;
+                    });
 
-                            document.getElementById("products").appendChild(div);
-                            div.appendChild(img);
+                while (productsContainer.hasChildNodes())
+                    productsContainer.removeChild(productsContainer.firstChild);
+                showInit(products);
+            }
+
+            showInit(data);
+            document.getElementById("searchbutton").onclick = filtering;
+            window.onscroll = onScrollHandler;
+
+            function showContents(e) {
+                let productName = e.currentTarget.id.substr(5);
+                if (document.getElementById('image' + productName).style.opacity != 0.4) {
+                    for (let i = 0; i < data.length; i++) {
+                        if (productName == data[i].name) {
+                            document.getElementById('image' + productName).style.opacity = 0.4;
+                            let productInfo = document.createElement('p');
+                            productInfo.innerHTML = "이름: " + data[i].name + " <br>가격: " + data[i].price + "원";
+                            document.getElementById('item ' + productName).appendChild(productInfo);
+                            productInfo.style.textAlign = "center";
+                            productInfo.style.position = "relative";
+                            productInfo.style.top = "-60%";
+                            productInfo.style.fontSize = "20px";
+                            productInfo.style.fontWeight = "bold";
+                            break;
                         }
                     }
                 }
             }
         }
     </script>
+
 </body>
 
 </html>
